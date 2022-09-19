@@ -1,16 +1,19 @@
 import { DataSource } from "typeorm"
-import { User } from ""
+// import {  } from ""
+// import {  } from ""
+import Categorias from "../Models/categoriesModel";
+// import {  } from ""
 
-export const AppDataSource = new DataSource({
+export default new DataSource({
     type: "mysql",
-    host: "localhost",
-    port: 3306,
-    username: "test",
-    password: "test",
-    database: "test",
+    host: process.env.DATABASE_HOST,
+    port: Number(process.env.DATABASE_PORT),
+    username: process.env.DATABASE_USERNAME,
+    password: process.env.DATABASE_PASS,
+    database: process.env.DATABASE_NAME,
     synchronize: true,
     logging: false,
-    entities: [User],
+    entities: [Categorias],
     migrations: [],
     subscribers: [],
 })

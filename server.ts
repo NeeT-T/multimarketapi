@@ -1,7 +1,8 @@
-import server from './Configs/CustomExpress';
-import "reflect-metadata"
 import { config } from "dotenv";
 config();
+import "reflect-metadata"
+import server from './Configs/CustomExpress';
+import DataBaseConnection from "./Configs/DataBaseConnection";
 
 const PORT = process.env.PORT || 4333
 server.listen(PORT, () => {

@@ -2,8 +2,8 @@ import express, { NextFunction, Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import helmet from 'helmet';
-import { HealthChecker, LivenessEndpoint, ReadinessEndpoint } from "@cloudnative/health-connect"
 import routes from '../Routes/index';
+import { HealthChecker, LivenessEndpoint, ReadinessEndpoint } from '@cloudnative/health-connect';
 
 const CustomExpress = express();
 const healthcheck = new HealthChecker();
