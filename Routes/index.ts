@@ -1,8 +1,8 @@
 import express from "express";
 import noFound from "./noFoundRouter";
-import products from "./productsRouter";
-import categories from "./categoriesRouter";
-import markets from "./marketsRouter";
+import products from "./productRouter";
+import categories from "./categorieRouter";
+import markets from "./marketRouter";
 
 const router = express();
 

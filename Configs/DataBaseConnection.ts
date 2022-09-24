@@ -1,7 +1,7 @@
 import { DataSource } from "typeorm"
 // import {  } from ""
 // import {  } from ""
-import Categorias from "../Models/categoriesModel";
+import Categorias from "../Models/categorieModel";
 // import {  } from ""
 
 export default new DataSource({
