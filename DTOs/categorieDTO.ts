@@ -1,14 +1,19 @@
 import Categorie from "../Models/categorieModel";
+import Product from "../Models/productModel";
+import ProductDTO from "./productDTO";
 
 export default class CategoriesDTO {
 
     private id: Number;
     
     private nome: String;
+
+    private products: ProductDTO[];
     
-    constructor(categories: Categorie) {
-        this.id = categories.id;
-        this.nome = categories.nome;
+    constructor(categorie: Categorie) {
+        this.id = categorie.id;
+        this.nome = categorie.nome;
+        this.products = categorie?.products?.map((product) => new ProductDTO(product))
     }
 
     public get _id(): Number {

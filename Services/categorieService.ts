@@ -10,6 +10,12 @@ const findAll = async (pagination: IPage) => {
     }
 }
 
+const findById = async (id: number) => {
+    const categorie = await CategorieRepository.findById(id);
+    return (categorie) ? new CategorieDTO(categorie) : null;
+}
+
 export default {
-    findAll
+    findAll,
+    findById,
 }
