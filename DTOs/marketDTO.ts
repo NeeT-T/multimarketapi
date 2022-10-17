@@ -16,6 +16,7 @@ export default class MarketsDTO {
 
     private products: ProductDTO[];
 
+
     constructor(market: Market) {
         this.id = market.id;
         this.nome = market.nome;
@@ -63,6 +64,14 @@ export default class MarketsDTO {
     }
     public set _nome(value: String) {
         this.nome = value;
+    }
+
+    public get _products(): ProductDTO[] {
+        return this.products;
+    }
+    
+    public set _products(value: ProductDTO[]) {
+        this.products = value;
     }
     
 }

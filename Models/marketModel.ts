@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, Unique, ManyToMany, JoinTable } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, Unique, ManyToMany, JoinTable, Index, OneToMany } from "typeorm"
 import Product from "./productModel"
 
 @Entity()
@@ -8,6 +8,7 @@ export default class Market {
     @PrimaryGeneratedColumn('increment')
     id!: number
 
+    @Index()
     @Column()
     nome!: string
 
@@ -20,8 +21,11 @@ export default class Market {
     @Column()
     cnpj!: string
 
-    @ManyToMany(type => Product, product => product.markets)
-    @JoinTable()
-    products!: Product[]
+    // @ManyToMany(type => Product, product => product.markets)
+    // @JoinTable()
+    // products!: Product[]
+
+    @OneToMany(type => Product, product => product.market)
+    products!: Product[];
 
 }

@@ -6,9 +6,6 @@ const findAll = async (pagination: IPage): Promise<[Market[], number]> => {
     try {
         console.log("[Conexão com o banco de dados aberta]");
         const db: DataSource = await Connection.initialize();
-        // console.log(await db.manager.getRepository(Market).createQueryBuilder("market").innerJoin())
-        // const foo = await db.manager.find(Market, {relations: {products: true}});
-        // console.log(foo[0].products[0]);
         return await db.manager.findAndCount(Market, {
             // relations: { products: true },
             order: { [pagination.orderby]: pagination?.direction },
@@ -25,13 +22,33 @@ const findAll = async (pagination: IPage): Promise<[Market[], number]> => {
     
 }
 
-const findById = async (idMarket: number) => {
+const findById = async (idMarket: number, relations: boolean = true) => {
     try {
         console.log("[Conexão com o banco de dados aberta]");
         const db: DataSource = await Connection.initialize();
-        return await db.manager.findOne(Market, {
+        const options = {
             where: { id: idMarket },
-            relations: { products: true },
+            relations: { products: relations },
+        }
+        return await db.manager.findOneOrFail(Market, {
+            where: { id: idMarket },
+            // relations: { products: relations },
+        });
+    } catch (error) {
+        console.log(error);
+        throw new Error("Erro ao realizar a operação com o banco de dados.");
+    } finally {
+        console.log("[Conexão com o banco de dados fechada]");
+        await Connection.destroy();
+    }
+}
+
+const save = async (market: Market) => {
+    try {
+        console.log("[Conexão com o banco de dados aberta]");
+        const db: DataSource = await Connection.initialize();
+        await db.transaction(async entityManager => {
+            await entityManager.save(market);
         });
     } catch (error) {
         console.log(error);
@@ -45,4 +62,5 @@ const findById = async (idMarket: number) => {
 export default {
     findAll,
     findById,
+    save,
 }

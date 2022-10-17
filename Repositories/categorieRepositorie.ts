@@ -27,7 +27,7 @@ const findById = async (idCategorie: number) => {
     try {
         console.log("[Conexão com o banco de dados aberta]");
         const db: DataSource = await Connection.initialize();
-        return await db.manager.findOne(Categorie, {
+        return await db.manager.findOneOrFail(Categorie, {
             where: { id: idCategorie },
             relations: { products: true },
         });

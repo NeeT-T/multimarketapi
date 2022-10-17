@@ -33,7 +33,13 @@ const getMarketById = async (req: Request, res: Response) => {
     }
 }
 
-const createMarket = () => {
+const saveMarket = async (req: Request, res: Response)  => {
+    try {
+        const data = req.body;
+        
+    } catch (error) {
+    
+    }
 
 }
 
@@ -48,7 +54,7 @@ const editMarket = () => {
 export default {
     getMarkets,
     getMarketById,
-    createMarket,
+    saveMarket,
     removeMarket,
     editMarket,
 }
