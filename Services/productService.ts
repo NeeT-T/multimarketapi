@@ -1,4 +1,5 @@
 import ProductDTO from "../DTOs/productDTO";
+import IProduct from "../Interfaces/IProduct";
 import Product from "../Models/productModel";
 import categorieRepositorie from "../Repositories/categorieRepositorie";
 import marketRepositorie from "../Repositories/marketRepositorie";
@@ -24,11 +25,13 @@ const findById = async (id: number) => {
     }
 }
 
-const save = async (productDto: ProductDTO) => {
+const save = async (iProduct: IProduct) => {
     try {
-        const market = await marketRepositorie.findById(productDto?._marketId, false);
-        const categorie = await categorieRepositorie.findById(productDto?._categorieId);
-        const product = Product.setProductsValue(productDto, categorie, market);
+        const market = await marketRepositorie.findById(iProduct?.marketId, false);
+        if (!market) return "ID do mercado não é valido.";
+        const categorie = await categorieRepositorie.findById(iProduct?.categorieId);
+        if (!categorie) return "ID da categoria não é valido.";
+        const product = Product.setProductsValue(iProduct, categorie, market);
         await ProductRepository.save(product);
         return new ProductDTO(product);
     } catch (error) {

@@ -1,13 +1,13 @@
-import { DataSource } from "typeorm";
+import { DataSource, Like } from "typeorm";
 import Market from "../Models/marketModel";
 import Connection from "../Configs/DataBaseConnection";
 
-const findAll = async (pagination: IPage): Promise<[Market[], number]> => {
+const findAll = async (pagination: IPage, name: string): Promise<[Market[], number]> => {
     try {
         console.log("[Conexão com o banco de dados aberta]");
         const db: DataSource = await Connection.initialize();
         return await db.manager.findAndCount(Market, {
-            // relations: { products: true },
+            where: {nome: Like(`%${name}%`)},
             order: { [pagination.orderby]: pagination?.direction },
             take: pagination.size,
             skip: pagination.page * pagination.size,
@@ -26,13 +26,9 @@ const findById = async (idMarket: number, relations: boolean = true) => {
     try {
         console.log("[Conexão com o banco de dados aberta]");
         const db: DataSource = await Connection.initialize();
-        const options = {
+        return await db.manager.findOne(Market, {
             where: { id: idMarket },
-            relations: { products: relations },
-        }
-        return await db.manager.findOneOrFail(Market, {
-            where: { id: idMarket },
-            // relations: { products: relations },
+            relations: { products: true },
         });
     } catch (error) {
         console.log(error);
@@ -47,9 +43,9 @@ const findByCnpj = async (cnpj: string) => {
     try {
         console.log("[Conexão com o banco de dados aberta]");
         const db: DataSource = await Connection.initialize();
-        return await db.manager.findOneOrFail(Market, {
+        return await db.manager.findOne(Market, {
             where: { cnpj: cnpj },
-            // relations: { products: relations },
+            relations: { products: true },
         });
     } catch (error) {
         console.log(error);

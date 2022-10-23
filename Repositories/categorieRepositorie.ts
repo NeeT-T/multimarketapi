@@ -1,14 +1,14 @@
-import { DataSource } from "typeorm";
+import { DataSource, Like } from "typeorm";
 import Categorie from "../Models/categorieModel";
-import CategorieDTO from "../DTOs/categorieDTO";
 import Connection from "../Configs/DataBaseConnection";
 
-const findAll = async (pagination: IPage): Promise<[Categorie[], number]> => {
+const findAll = async (pagination: IPage, name: string): Promise<[Categorie[], number]> => {
     try {
         console.log("[Conexão com o banco de dados aberta]");
         const db: DataSource = await Connection.initialize();
+        console.log(name)
         return await db.manager.findAndCount(Categorie, {
-            // relations: { products: true },
+            where: { nome: Like(`%${name}%`)},
             order: { [pagination.orderby]: pagination?.direction },
             take: pagination.size,
             skip: pagination.page * pagination.size,
@@ -27,7 +27,7 @@ const findById = async (idCategorie: number) => {
     try {
         console.log("[Conexão com o banco de dados aberta]");
         const db: DataSource = await Connection.initialize();
-        return await db.manager.findOneOrFail(Categorie, {
+        return await db.manager.findOne(Categorie, {
             where: { id: idCategorie },
             relations: { products: true },
         });

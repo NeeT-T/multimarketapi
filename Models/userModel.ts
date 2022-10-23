@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, Index, OneToOne, JoinColumn } from "typeorm"
-import IUser from "../Interfaces/IUser"
-import Market from "./marketModel"
+import IUser from "../Interfaces/IUser";
+import Market from "./marketModel";
 
 @Entity()
 export default class User {
@@ -19,9 +19,6 @@ export default class User {
     @Column()
     data!: Date
 
-    // @Column()
-    // marketId!: number
-
     @OneToOne(() => Market, { nullable: false })
     @JoinColumn()
     market!: Market
@@ -31,7 +28,7 @@ export default class User {
         user.id = iUser.id;
         user.email = iUser.email;
         user.data = new Date();
-        user.senha = iUser.senha;
+        user.market = Market.setMarketValues(iUser.market);
         return user;
     }
 }

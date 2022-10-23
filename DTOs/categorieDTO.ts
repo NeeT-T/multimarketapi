@@ -1,5 +1,4 @@
 import Categorie from "../Models/categorieModel";
-import Product from "../Models/productModel";
 import ProductDTO from "./productDTO";
 
 export default class CategoriesDTO {

@@ -5,13 +5,14 @@ import Page from "../Library/Page";
 const getMarkets = async (req: Request, res: Response) => {
     try {
         const data = req.query;
+        const name = String(data.hasOwnProperty("nomeLike") ? data.nomeLike : "");
         const pagination = new Page(
             Number(data.size || 10),
             data.direction === "DESC" ? "DESC" : "ASC",
             Number(data.page || 0),
             String(data.orderby || "nome"),
         )
-        const [result, total] = await MarketService.findAll(pagination) || [];
+        const [result, total] = await MarketService.findAll(pagination, name) || [];
         return res.status(200).json({ data: result, itensNoTotal: total});
     } catch (error) {
         console.log("\n\n[Erro]: ", error)

@@ -1,6 +1,4 @@
-import MarketDTO from "./marketDTO";
 import Product from "../Models/productModel";
-import IProduct from "../Interfaces/IProduct";
 
 export default class ProductsDTO {
 
@@ -16,7 +14,7 @@ export default class ProductsDTO {
 
     private marketId: number;
 
-    constructor(product: Product | IProduct) {
+    constructor(product: Product) {
         this.id = product.id;
         this.nome = product.nome;
         this.preco = product.preco;

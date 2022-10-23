@@ -4,9 +4,8 @@ import ICredentials from "../Interfaces/ICredentials";
 import UserRepository from "../Repositories/userRepositorie";
 import IUser from "../Interfaces/IUser";
 import User from "../Models/userModel";
-import Market from "../Models/marketModel";
 import MarketRepository from "../Repositories/marketRepositorie";
-const SECRET_SALT=10
+const SECRET_SALT = 10;
 
 const authenticate = async (iCredentials: ICredentials) => {
     try {
@@ -35,7 +34,6 @@ const save = async (iUser: IUser) => {
     }
     const user = User.setUserValues(iUser);
     user.senha = await bcrypt.hash(iUser.senha, SECRET_SALT);
-    user.market =  Market.setMarketValues(iUser.market);
     await UserRepository.save(user);
     return new UserDTO(user);
 }

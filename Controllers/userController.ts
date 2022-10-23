@@ -9,7 +9,6 @@ const authenticate = async (req: Request, res: Response) => {
         const data = req.body;
         await UserValidator.credentials().validate(data);
         const result = await UserService.authenticate(data);
-        console.log(result);
         (result) ? 
             res.status(200).json(result) :
             res.status(401).json({ message: "Credenciais invalidas" });
@@ -23,7 +22,6 @@ const authenticate = async (req: Request, res: Response) => {
 const getUserById = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        console.log(id)
         if (isNaN(Number(id))) {
             return res.redirect("../_noFoundController");
         }

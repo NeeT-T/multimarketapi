@@ -1,7 +1,6 @@
 import Market from "../Models/marketModel";
 import ProductDTO from "./productDTO";
 
-
 export default class MarketsDTO {
 
     private id: Number;

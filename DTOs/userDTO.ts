@@ -7,7 +7,7 @@ export default class UserDTO {
  
     private email: string;
 
-    private senha: string;
+    // private senha: string;
 
     private data: Date;
 
@@ -16,7 +16,7 @@ export default class UserDTO {
     constructor(user: User) {
         this.id = user.id;
         this.email = user.email;
-        this.senha = user.senha;
+        // this.senha = user.senha;
         this.data = new Date(user.data);
         this.market = new MarketDTO(user.market);
     }
@@ -37,13 +37,13 @@ export default class UserDTO {
         this.email = value;
     }
 
-    public get _senha(): string {
-        return this.senha;
-    }
+    // public get _senha(): string {
+    //     return this.senha;
+    // }
 
-    public set _senha(value: string) {
-        this.senha = value;
-    }
+    // public set _senha(value: string) {
+    //     this.senha = value;
+    // }
 
     public get _data(): Date {
         return this.data;

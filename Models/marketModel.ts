@@ -19,10 +19,6 @@ export default class Market {
     @Column({ nullable: false })
     cnpj!: string
 
-    // @ManyToMany(type => Product, product => product.markets)
-    // @JoinTable()
-    // products!: Product[]
-
     @OneToMany(type => Product, product => product.market)
     products!: Product[];
 
