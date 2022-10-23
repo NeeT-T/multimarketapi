@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, Unique, ManyToMany, JoinTable, Index, OneToMany } from "typeorm"
-import Product from "./productModel"
+import Product from "./productModel";
+import IMarket from "../Interfaces/IMarket";
 
 @Entity()
 @Unique(["cnpj"])
@@ -9,16 +10,13 @@ export default class Market {
     id!: number
 
     @Index()
-    @Column()
+    @Column({ nullable: false })
     nome!: string
-
-    @Column()
-    email!: string
-
-    @Column()
+    
+    @Column({ nullable: false })
     cep!: string
 
-    @Column()
+    @Column({ nullable: false })
     cnpj!: string
 
     // @ManyToMany(type => Product, product => product.markets)
@@ -28,4 +26,12 @@ export default class Market {
     @OneToMany(type => Product, product => product.market)
     products!: Product[];
 
+    static setMarketValues(iMarket: IMarket) {
+        const market = new Market();
+        market.id = iMarket.id;
+        market.nome = iMarket.nome;
+        market.cep = iMarket.cep;
+        market.cnpj = iMarket.cnpj;
+        return market;
+    }
 }

@@ -8,8 +8,6 @@ export default class MarketsDTO {
     
     private nome: String;
 
-    private email: String;
-
     private cep: String;
 
     private cnpj: String;
@@ -20,7 +18,6 @@ export default class MarketsDTO {
     constructor(market: Market) {
         this.id = market.id;
         this.nome = market.nome;
-        this.email = market.email;
         this.cep = market.cep;
         this.cnpj = market.cnpj;
         this.products = market?.products?.map(product => new ProductDTO(product));
@@ -42,16 +39,7 @@ export default class MarketsDTO {
         this.cnpj = value;
     }
 
-    public get _email(): String {
-        return this._email;
-    }
-
-    public set _email(value: String) {
-        this._email = value;
-    }
-    
-
-    public get _id(): Number {
+      public get _id(): Number {
         return this.id;
     }
 

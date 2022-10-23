@@ -1,6 +1,6 @@
 import MarketDTO from "./marketDTO";
 import Product from "../Models/productModel";
-import IProduct from "../Models/IProduct";
+import IProduct from "../Interfaces/IProduct";
 
 export default class ProductsDTO {
 

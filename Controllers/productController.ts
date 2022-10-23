@@ -3,7 +3,7 @@ import ProductService from "../Services/productService";
 import productsValidator from "../Validators/productsValidator";
 import Page from "../Library/Page";
 import productService from "../Services/productService";
-import IProduct from "../Models/IProduct";
+import IProduct from "../Interfaces/IProduct";
 import ProductDTO from "../DTOs/productDTO";
 
 const getProducts = async (req: Request, res: Response) => {
@@ -50,10 +50,9 @@ const saveProduct = async (req: Request, res: Response)  => {
         const message_error = (error?.message) ? error.message : error;
         res.status(500).send({message: message_error});
     }
-
 }
 
-const editProduct = () => {
+const updateProduct = () => {
 
 }
 
@@ -61,11 +60,10 @@ const removeProduct = () => {
 
 }
 
-
 export default {
     getProducts,
     getProductsById,
     saveProduct,
     removeProduct,
-    editProduct,
+    updateProduct,
 }

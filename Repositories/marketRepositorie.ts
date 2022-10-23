@@ -43,6 +43,23 @@ const findById = async (idMarket: number, relations: boolean = true) => {
     }
 }
 
+const findByCnpj = async (cnpj: string) => {
+    try {
+        console.log("[Conexão com o banco de dados aberta]");
+        const db: DataSource = await Connection.initialize();
+        return await db.manager.findOneOrFail(Market, {
+            where: { cnpj: cnpj },
+            // relations: { products: relations },
+        });
+    } catch (error) {
+        console.log(error);
+        throw new Error("Erro ao realizar a operação com o banco de dados.");
+    } finally {
+        console.log("[Conexão com o banco de dados fechada]");
+        await Connection.destroy();
+    }
+}
+
 const save = async (market: Market) => {
     try {
         console.log("[Conexão com o banco de dados aberta]");
@@ -62,5 +79,6 @@ const save = async (market: Market) => {
 export default {
     findAll,
     findById,
+    findByCnpj,
     save,
 }
