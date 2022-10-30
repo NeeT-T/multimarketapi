@@ -13,16 +13,16 @@ export default class Product {
     @Column()
     nome!: string
 
-    @Column('decimal', { precision: 5, scale: 2 })
+    @Column('decimal', { precision: 5, scale: 2, nullable: false })
     preco!: number
 
-    @Column()
+    @Column({ nullable: false })
     cesta!: boolean
 
-    @Column()
+    @Column({ nullable: false })
     categorieId!: number
 
-    @Column()
+    @Column({ nullable: false })
     marketId!: number
 
     @ManyToOne(type => Categorie, categorie => categorie.products)
@@ -31,14 +31,12 @@ export default class Product {
     @ManyToOne(type => Market, market => market.products)
     market!: Market
 
-    static setProductsValue = (iProduct: IProduct, categorie: Categorie, market: Market) => {
-        const product = new Product();
-        product.nome = iProduct.nome;
-        product.preco =  iProduct.preco;
-        product.cesta = iProduct.cesta;
-        (market) ? product.market = market : null;
-        (categorie) ? product.categorie = categorie : null;
-        return product;
+    setProductsValue = (iProduct: IProduct, categorie: Categorie, market: Market) => {
+        this.nome = iProduct.nome;
+        this.preco =  iProduct.preco;
+        this.cesta = iProduct.cesta;
+        (market) ? this.market = market : null;
+        (categorie) ? this.categorie = categorie : null;
     }
 
 }

@@ -22,12 +22,9 @@ export default class Market {
     @OneToMany(type => Product, product => product.market)
     products!: Product[];
 
-    static setMarketValues(iMarket: IMarket) {
-        const market = new Market();
-        market.id = iMarket.id;
-        market.nome = iMarket.nome;
-        market.cep = iMarket.cep;
-        market.cnpj = iMarket.cnpj;
-        return market;
+    setMarketValues(iMarket: IMarket) {
+        this.nome = iMarket.nome;
+        this.cep = iMarket.cep;
+        this.cnpj = iMarket.cnpj;
     }
 }

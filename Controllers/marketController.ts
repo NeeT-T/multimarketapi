@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import MarketService from "../Services/marketService";
 import Page from "../Library/Page";
+import IMarket from "../Interfaces/IMarket";
+import MarketsValidator from "../Validators/marketValidator";
 
 const getMarkets = async (req: Request, res: Response) => {
     try {
@@ -34,21 +36,25 @@ const getMarketById = async (req: Request, res: Response) => {
     }
 }
 
-const saveMarket = async (req: Request, res: Response)  => {
-}
-
-const removeMarket = () => {
-
-}
-
-const updateMarket = () => {
-    
+const updateMarket = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const data: IMarket = req.body;
+        if (isNaN(Number(id))) {
+            return res.redirect("../_noFoundController");
+        }
+        await MarketsValidator.market().validate(data);
+        const result = await MarketService.update(Number(id), data);
+        return res.status(200).json({ data: result });
+    } catch (error: any) {
+        console.log("\n\n[Erro]: ", error);
+        const message_error = (error?.message) ? error.message : error;
+        res.status(500).send({message: message_error});
+    }
 }
 
 export default {
     getMarkets,
     getMarketById,
-    saveMarket,
-    removeMarket,
     updateMarket,
 }

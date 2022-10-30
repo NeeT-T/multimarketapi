@@ -1,7 +1,6 @@
 import { DataSource, Like } from "typeorm";
 import Product from "../Models/productModel";
 import Connection from "../Configs/DataBaseConnection";
-import productController from "../Controllers/productController";
 
 const findAll = async (pagination: IPage, name: String): Promise<[Product[], number]> => {
     try {

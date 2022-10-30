@@ -9,26 +9,23 @@ export default class User {
     id!: number
 
     @Index()
-    @Column()
+    @Column({ nullable: false })
     email!: string
 
     @Index()
-    @Column()
+    @Column({ nullable: false })
     senha!: string
 
-    @Column()
+    @Column({ nullable: false })
     data!: Date
 
     @OneToOne(() => Market, { nullable: false })
     @JoinColumn()
     market!: Market
 
-    static setUserValues(iUser: IUser) {
-        const user = new User();
-        user.id = iUser.id;
-        user.email = iUser.email;
-        user.data = new Date();
-        user.market = Market.setMarketValues(iUser.market);
-        return user;
+    setUserValues(iUser: IUser, market: Market): void{
+        this.email = iUser.email;
+        this.data = new Date();
+        this.market = market;
     }
 }

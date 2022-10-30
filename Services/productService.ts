@@ -1,8 +1,8 @@
 import ProductDTO from "../DTOs/productDTO";
 import IProduct from "../Interfaces/IProduct";
 import Product from "../Models/productModel";
-import categorieRepositorie from "../Repositories/categorieRepositorie";
-import marketRepositorie from "../Repositories/marketRepositorie";
+import CategorieRepositorie from "../Repositories/categorieRepositorie";
+import MarketRepositorie from "../Repositories/marketRepositorie";
 import ProductRepository from "../Repositories/productRepositorie";
 
 const findAll = async (pagination: IPage, name: String = ""): Promise<(Number | ProductDTO[])[]> => {
@@ -27,11 +27,29 @@ const findById = async (id: number) => {
 
 const save = async (iProduct: IProduct) => {
     try {
-        const market = await marketRepositorie.findById(iProduct?.marketId, false);
+        const market = await MarketRepositorie.findById(iProduct?.marketId, false);
         if (!market) return "ID do mercado não é valido.";
-        const categorie = await categorieRepositorie.findById(iProduct?.categorieId);
+        const categorie = await CategorieRepositorie.findById(iProduct?.categorieId);
         if (!categorie) return "ID da categoria não é valido.";
-        const product = Product.setProductsValue(iProduct, categorie, market);
+        const product = new Product();
+        product.setProductsValue(iProduct, categorie, market);
+        await ProductRepository.save(product);
+        return new ProductDTO(product);
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+}
+
+const update = async (id: number, iProduct: IProduct) => {
+    try {
+        const product = await ProductRepository.findById(id);
+        if (!product) return "O produto não existe, então não pode ser atualizado.";
+        const market = await MarketRepositorie.findById(iProduct?.marketId, false);
+        if (!market) return "ID do mercado não é valido.";
+        const categorie = await CategorieRepositorie.findById(iProduct?.categorieId);
+        if (!categorie) return "ID da categoria não é valido.";
+        product.setProductsValue(iProduct, categorie, market);
         await ProductRepository.save(product);
         return new ProductDTO(product);
     } catch (error) {
@@ -44,4 +62,5 @@ export default {
     findAll,
     findById,
     save,
+    update,
 }

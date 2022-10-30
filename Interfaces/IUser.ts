@@ -1,6 +1,6 @@
 import IMarket from "./IMarket";
 
-export default interface ICredentials {
+export default interface IUser {
     id: number;
     email: string;
     senha: string;

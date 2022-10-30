@@ -50,8 +50,21 @@ const saveProduct = async (req: Request, res: Response)  => {
     }
 }
 
-const updateProduct = () => {
-
+const updateProduct = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const data: IProduct = req.body;
+        if (isNaN(Number(id))) {
+            return res.redirect("../_noFoundController");
+        }
+        await productsValidator.products().validate(data);
+        const result = await productService.update(Number(id), data);
+        return res.status(200).json({ data: result });
+    } catch (error: any) {
+        console.log("\n\n[Erro]: ", error);
+        const message_error = (error?.message) ? error.message : error;
+        res.status(500).send({message: message_error});
+    }
 }
 
 const removeProduct = () => {

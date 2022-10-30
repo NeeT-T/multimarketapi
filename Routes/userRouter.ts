@@ -6,7 +6,7 @@ const router = express.Router();
 router.post('/authenticate', Controller.authenticate);
 router.get('/:id', Controller.getUserById);
 router.post('/', Controller.saveUser);
-router.put('/:id', Controller.updateUser);
+router.put('/:id', Controller.updateCredentials);
 router.delete('/:id', Controller.removeUser);
 
 export default router;
