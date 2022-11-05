@@ -39,9 +39,13 @@ const getProductsById = async (req: Request, res: Response) => {
 
 const saveProduct = async (req: Request, res: Response)  => {
     try {
-        const data: IProduct = req.body;
-        await productsValidator.products().validate(data);
-        const result = await productService.save(data);
+        if (Array.isArray(req.body)) {
+            req.body.map(async data => await productsValidator.products().validate(data));
+            const result = await productService.saveMultiple(req.body);
+            return res.status(201).json({ data: result});
+        }
+        await productsValidator.products().validate(req.body);
+        const result = await productService.save(req.body);
         return res.status(201).json({ data: result });
     } catch (error: any) {
         console.log("\n\n[Erro]: ", error);

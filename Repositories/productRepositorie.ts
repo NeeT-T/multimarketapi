@@ -59,9 +59,15 @@ const saveMultiple = async (products: Product[]) => {
     try {
         console.log("[Conexão com o banco de dados aberta]");
         const db: DataSource = await Connection.initialize();
-        await db.transaction(async entityManager => {
-            await entityManager.save(products);
-        });
+        // await db.transaction(async entityManager => {
+            // await entityManager.save(products);
+            await db
+            .createQueryBuilder()
+            .insert()
+            .into(Product)
+            .values(products)
+            .execute()
+        // });
     } catch (error) {
         console.log(error);
         throw new Error("Erro ao realizar a operação com o banco de dados.");

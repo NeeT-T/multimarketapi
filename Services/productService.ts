@@ -41,6 +41,16 @@ const save = async (iProduct: IProduct) => {
     }
 }
 
+const saveMultiple = async (products: Product[]) => {
+    try {        
+        await ProductRepository.saveMultiple(products);
+        return products.map(product => new ProductDTO(product));
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+}
+
 const update = async (id: number, iProduct: IProduct) => {
     try {
         const product = await ProductRepository.findById(id);
@@ -74,6 +84,7 @@ export default {
     findAll,
     findById,
     save,
+    saveMultiple,
     update,
     remove,
 }
