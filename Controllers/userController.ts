@@ -67,12 +67,12 @@ const updateCredentials = async (req: Request, res: Response) => {
 
 const removeUser = async (req: Request, res: Response) => {
     try {
-        // const { id } = req.params;
-        // if (isNaN(Number(id))) {
-        //     return res.redirect("../_noFoundController");
-        // }
-        // const result = await CategorieService.findById(Number(id));
-        // return res.status(200).json({ data: result });
+        const { id } = req.params;
+        if (isNaN(Number(id))) {
+            return res.redirect("../_noFoundController");
+        }
+        const result = await UserService.remove(Number(id));
+        return res.status(200).json({ data: result });
     } catch (error) {
         console.log("\n\n[Erro]: ", error)
         return res.status(500).json({ message: "Problemas com a conexão" });

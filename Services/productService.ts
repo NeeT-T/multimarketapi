@@ -58,9 +58,22 @@ const update = async (id: number, iProduct: IProduct) => {
     }
 }
 
+const remove = async (id: number) => {
+    try {
+        const product = await ProductRepository.findById(id);
+        if (!product) return "Produto não pode ser excluido pois não existe.";
+        const result = await ProductRepository.remove(product);
+        return (!!result);
+    } catch (error) {
+        console.log(error)
+        return false;
+    }
+}
+
 export default {
     findAll,
     findById,
     save,
     update,
+    remove,
 }

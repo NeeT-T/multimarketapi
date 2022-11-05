@@ -55,8 +55,41 @@ const save = async (products: Product) => {
     }
 }
 
+const saveMultiple = async (products: Product[]) => {
+    try {
+        console.log("[Conexão com o banco de dados aberta]");
+        const db: DataSource = await Connection.initialize();
+        await db.transaction(async entityManager => {
+            await entityManager.save(products);
+        });
+    } catch (error) {
+        console.log(error);
+        throw new Error("Erro ao realizar a operação com o banco de dados.");
+    } finally {
+        console.log("[Conexão com o banco de dados fechada]");
+        await Connection.destroy();
+    }
+}
+
+const remove = async (product: Product) => {
+    try {
+        console.log("[Conexão com o banco de dados aberta]");
+        console.log("Deleta produto")
+        const db: DataSource = await Connection.initialize();
+        return await db.manager.remove(product);
+    } catch (error) {
+        console.log(error);
+        throw new Error("Erro ao realizar a operação com o banco de dados.");
+    } finally {
+        console.log("[Conexão com o banco de dados fechada]");
+        await Connection.destroy();
+    }
+}
+
 export default {
     findAll,
     findById,
     save,
+    remove,
+    saveMultiple,
 }

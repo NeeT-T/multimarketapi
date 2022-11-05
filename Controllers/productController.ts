@@ -67,8 +67,18 @@ const updateProduct = async (req: Request, res: Response) => {
     }
 }
 
-const removeProduct = () => {
-
+const removeProduct = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        if (isNaN(Number(id))) {
+            return res.redirect("../_noFoundController");
+        }
+        const result = await ProductService.remove(Number(id));
+        return res.status(200).json({ data: result });
+    } catch (error) {
+        console.log("\n\n[Erro]: ", error);
+        return res.status(500).json({ message: "Problemas com a conexão" });
+    }
 }
 
 export default {

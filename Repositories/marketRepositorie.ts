@@ -72,9 +72,25 @@ const save = async (market: Market) => {
     }
 }
 
+const remove = async (market: Market) => {
+    try {
+        console.log("[Conexão com o banco de dados aberta]");
+        console.log("Deleta mercado")
+        const db: DataSource = await Connection.initialize();
+        return await db.manager.remove(market);
+    } catch (error) {
+        console.log(error);
+        throw new Error("Erro ao realizar a operação com o banco de dados.");
+    } finally {
+        console.log("[Conexão com o banco de dados fechada]");
+        await Connection.destroy();
+    }
+}
+
 export default {
     findAll,
     findById,
     findByCnpj,
     save,
+    remove,
 }
