@@ -1,10 +1,9 @@
 import { config } from "dotenv";
 config();
 import "reflect-metadata"
-import server from './Configs/CustomExpress';
-import DataBaseConnection from "./Configs/DataBaseConnection";
+import server from './src/Configs/CustomExpress';
 
-const PORT = process.env.PORT || 4333
+const PORT = process.env.PORT || 4008
 server.listen(PORT, () => {
   console.log(`Server is running port ${process.env.PORT || 4008}`);
 });

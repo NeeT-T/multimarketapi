@@ -1,0 +1,47 @@
+version: '3.9'
+
+networks:
+  app-tier:
+    driver: bridge
+
+services:
+  api:
+    build: .
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    container_name: multimarketapi
+    restart: always
+    ports:
+      - "4008:4008"
+    expose:
+      - 4008
+    volumes:
+      - .:/src
+  redis:
+    image: "redis:latest"
+    ports:
+      - "6379:6379"
+    expose:
+      - 6379
+    healthcheck:
+      test: "exit 0"
+  mysql:
+    image: "mysql:latest"
+    # command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    networks:
+      - app-tier
+    ports:
+      - "3306:3306"
+    expose:
+      - 3306
+    environment:
+      MYSQL_DATABASE: 'MultiMarket'
+      MYSQL_ROOT_PASSWORD: 'password'
+    volumes:
+      - .:/db
+    healthcheck:
+      test: "exit 0"
