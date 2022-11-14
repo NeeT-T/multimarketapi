@@ -40,7 +40,24 @@ const findById = async (idCategorie: number) => {
     }
 }
 
+const save = async (categorie: Categorie) => {
+    try {
+        console.log("[Conexão com o banco de dados aberta]");
+        const db: DataSource = await Connection.initialize();
+        await db.transaction(async entityManager => {
+            await entityManager.save(categorie);
+        });
+    } catch (error) {
+        console.log(error);
+        throw new Error("Erro ao realizar a operação com o banco de dados.");
+    } finally {
+        console.log("[Conexão com o banco de dados fechada]");
+        await Connection.destroy();
+    }
+}
+
 export default {
     findAll,
     findById,
+    save
 }

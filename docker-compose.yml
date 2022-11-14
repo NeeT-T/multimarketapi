@@ -9,7 +9,6 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-    restart: always
     ports:
       - "4008:4008"
     expose:
@@ -18,23 +17,22 @@ services:
       - .:/src
 
   redis:
-    container_name: session
+    container_name: redis
     image: "redis:latest"
     ports:
       - "6379:6379"
-    expose:
-      - 6379
+    tty: true
     healthcheck:
       test: "exit 0"
 
   database:
     container_name: database
     image: "mysql:latest"
-    restart: always
     ports:
       - "3306:3306"
     environment:
       MYSQL_DATABASE: 'MultiMarket'
       MYSQL_ROOT_PASSWORD: 'password'
+    tty: true
     healthcheck:
       test: "exit 0"

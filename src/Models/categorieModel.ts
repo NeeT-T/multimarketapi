@@ -1,7 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, Unique } from "typeorm"
 import Product from "./productModel"
 
 @Entity()
+@Unique(['nome'])
 export default class Categorie {
 
     @PrimaryGeneratedColumn('increment')

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import CategorieService from "../Services/categorieService";
 import Page from "../Library/Page";
+import CategorieValidator from "../Validators/categorieValidator";
 
 const getCategories = async (req: Request, res: Response) => {
     try {
@@ -34,7 +35,21 @@ const getCategorieById = async (req: Request, res: Response) => {
     }
 }
 
+const saveCategorie = async (req: Request, res: Response)  => {
+    try {
+        const data = req.body;
+        await CategorieValidator.categorie().validate(data);
+        const result = await CategorieService.save(data?.nome);
+        return res.status(201).json({ data: result });
+    } catch (error: any) {
+        console.log("\n\n[Erro]: ", error);
+        const message_error = (error?.message) ? error.message : error;
+        res.status(500).send({message: message_error});
+    }
+}
+
 export default {
     getCategories,
     getCategorieById,
+    saveCategorie,
 }
