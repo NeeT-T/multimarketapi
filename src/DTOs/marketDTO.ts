@@ -15,7 +15,7 @@ export default class MarketsDTO {
 
 
     constructor(market: Market) {
-        this.id = market.id;
+        this.id = market?.id;
         this.nome = market.nome;
         this.cep = market.cep;
         this.cnpj = market.cnpj;

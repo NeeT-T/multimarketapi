@@ -1,4 +1,6 @@
+import Market from "../Models/marketModel";
 import Product from "../Models/productModel";
+import MarketDTO from "./marketDTO";
 
 export default class ProductsDTO {
 
@@ -14,6 +16,8 @@ export default class ProductsDTO {
 
     private marketId: number;
 
+    private market!: MarketDTO;
+
     constructor(product: Product) {
         this.id = product.id;
         this.nome = product.nome;
@@ -22,7 +26,15 @@ export default class ProductsDTO {
         this.categorieId = product.categorieId;
         this.marketId = product.marketId;
     }
-    
+
+    public get _market(): MarketDTO {
+        return this.market;
+    }
+
+    public set _market(value: MarketDTO) {
+        this.market = value;
+    }
+
     public get _categorieId(): number {
         return this.categorieId;
     }

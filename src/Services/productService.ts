@@ -1,3 +1,4 @@
+import MarketsDTO from "../DTOs/marketDTO";
 import ProductDTO from "../DTOs/productDTO";
 import IProduct from "../Interfaces/IProduct";
 import Product from "../Models/productModel";
@@ -8,7 +9,11 @@ import ProductRepository from "../Repositories/productRepositorie";
 const findAll = async (pagination: IPage, name: String = ""): Promise<(Number | ProductDTO[])[]> => {
     try {
         const [result, total] = await ProductRepository.findAll(pagination, name);
-        return [result.map((product) => new ProductDTO(product)), total];
+        return [result.map((product) => { 
+            const prod = new ProductDTO(product);
+            prod._market = new MarketsDTO(product.market);
+            return prod;
+        }), total];
     } catch (error) {
         console.log(error)
         throw error;
