@@ -7,7 +7,7 @@ const findAll = async (pagination: IPage, name: String): Promise<[Product[], num
         console.log("[Conexão com o banco de dados aberta]");
         const db: DataSource = await Connection.initialize();
         return await db.manager.findAndCount(Product, {
-            // relations: { markets: true },
+            relations: { markets: true },
             where: {nome: Like(`%${name}%`)},
             order: { [pagination.orderby]: pagination?.direction },
             take: pagination.size,
