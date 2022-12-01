@@ -6,7 +6,10 @@ import IUser from "../Interfaces/IUser";
 import User from "../Models/userModel";
 import MarketRepository from "../Repositories/marketRepositorie";
 import Market from "../Models/marketModel";
-import ProductRepositorie from "../Repositories/productRepositorie";
+import Session from "./sessionService";
+import { v4 as uuidv4 } from 'uuid';
+import { json } from "body-parser";
+
 const SECRET_SALT = 10;
 
 const authenticate = async (iCredentials: ICredentials) => {
@@ -14,9 +17,33 @@ const authenticate = async (iCredentials: ICredentials) => {
         const user = await UserRepository.findByEmail(iCredentials.email);
         if (!user) return null;
         const isValidUser = await bcrypt.compare(iCredentials.senha, user.senha);
-        return (isValidUser) ? new UserDTO(user) : null;
+        if (!isValidUser) return null
+        const uuid = uuidv4()
+        const result = new UserDTO(user)
+        Session.saveSession(uuid, result);
+        return { user: result, token: uuid }
     } catch (error) {
         throw error;
+    }
+}
+
+const verifyToken = async (token: string) => {
+    try {
+        const data = await Session.getSession(token);
+        console.log(data)
+        return (data) ? data : null;
+    } catch (error: any) {
+        throw error;
+    }
+}
+
+const removeSession = async (token: string) => {
+    try {
+        const data = await Session.removeSession(token);
+        return true;
+    } catch (error) {
+        console.log(error);
+        return false;
     }
 }
 
@@ -80,11 +107,12 @@ const remove = async (id: number) => {
         console.log(error);
         return false;
     }
-    
 }
 
 export default {
     authenticate,
+    verifyToken,
+    removeSession,
     findById,
     save,
     update,

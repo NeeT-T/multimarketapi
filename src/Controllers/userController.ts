@@ -20,6 +20,30 @@ const authenticate = async (req: Request, res: Response) => {
     }
 }
 
+const verifytoken = async (req: Request, res: Response) => {
+    try {
+        const token = req.body.token;
+        const result = await UserService.verifyToken(token);
+        res.status(200).json(result);
+    } catch (error: any) {
+        console.log("\n\n[Erro]: ", error)
+        return res.status(401).json({ message: "Token não é valido" });
+    }
+}
+
+const logout = async (req: Request, res: Response) => {
+    try {
+        const token = req.body.token;
+        const result = await UserService.removeSession(token);
+        (result) ? 
+            res.status(200).json({ message: "Sessão encerrada com sucesso!" }) :
+            res.status(500).json({ message: "Ocorreu um problema ao deslogar por favor tente novamente."});
+    } catch (error: any) {
+        console.log("\n\n[Erro]: ", error)
+        return res.status(401).json({ message: "Token não é valido" });
+    }
+}
+
 const getUserById = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
@@ -81,6 +105,8 @@ const removeUser = async (req: Request, res: Response) => {
 
 export default {
     authenticate,
+    verifytoken,
+    logout,
     getUserById,
     saveUser,
     updateCredentials,
