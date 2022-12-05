@@ -1,4 +1,4 @@
-import { DataSource, Like } from "typeorm";
+import { DataSource, Like, Raw } from "typeorm";
 import Product from "../Models/productModel";
 import Connection from "../Configs/DataBaseConnection";
 
@@ -8,7 +8,7 @@ const findAll = async (pagination: IPage, name: String): Promise<[Product[], num
         const db: DataSource = await Connection.initialize();
         return await db.manager.findAndCount(Product, {
             relations: { market: true },
-            where: {nome: Like(`%${name}%`)},
+            where: {nome: Raw(alias => `LOWER(${alias}) Like '%${name}%'`)},
             order: { [pagination.orderby]: pagination?.direction },
             take: pagination.size,
             skip: pagination.page * pagination.size,

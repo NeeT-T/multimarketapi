@@ -1,4 +1,4 @@
-import { DataSource, Like } from "typeorm";
+import { DataSource, Like, Raw } from "typeorm";
 import Categorie from "../Models/categorieModel";
 import Connection from "../Configs/DataBaseConnection";
 
@@ -8,7 +8,7 @@ const findAll = async (pagination: IPage, name: string): Promise<[Categorie[], n
         const db: DataSource = await Connection.initialize();
         console.log(name)
         return await db.manager.findAndCount(Categorie, {
-            where: { nome: Like(`%${name}%`)},
+            where: { nome: Raw(alias => `LOWER(${alias}) Like '%${name}%'`) },
             order: { [pagination.orderby]: pagination?.direction },
             take: pagination.size,
             skip: pagination.page * pagination.size,
